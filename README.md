@@ -1,45 +1,44 @@
-# テーブル設計
+# DB 設計
 
-## user テーブル
+## users table
 
-| Column       | Type   | Options     |
-| -------------| ------ | ----------- |
-| name         | string | null: not   |
-| email        | string | null: not   |
-| password     | string | null: not   |
-| profile      | text   | null: not   |
-| occupation   | text   | null: not   |
-
-### Association
-
-- has_many :room_users
-- has_many :rooms, through: room_users
-- has_many :messages
-
-## prototypesテーブル
-
-| Column     | Type   | Options     |
-| -----------| ------ | ----------- |
-| title      | string | null: not   |
-| catch_copy | text   | null: not   |
-| concept    | text   | null: not   |
-| user       | references
+| Column             | Type                | Options                 |
+|--------------------|---------------------|-------------------------|
+| email              | string              | null: false             |
+| password           | string              | null: false             |
+| name               | string              | null: false             |
+| profile            | text                | null: false             |
+| occupation         | text                | null: false             |
+| position           | text                | null: false             |
 
 ### Association
 
-- has_many :room_users
-- has_many :rooms, through: room_users
-- has_many :messages
+* has_many :prototypes
+* has_many :comments
 
-## commentsテーブル
+## prototypes table
 
-| Column    | Type        | Options     |
-| --------- | ----------- | ----------- |
-| test      | string      | null: not   |
-| user      | references  |
-| prototype | references
+| Column                              | Type       | Options           |
+|-------------------------------------|------------|-------------------|
+| title                               | string     | null: false       |
+| catch_copy                          | text       | null: false       |
+| concept                             | text       | null: false       |
+| user                                | references | foreign_key: true |
 
 ### Association
 
-- belongs_to :room
+- belongs_to :user
+- has_many :comments
+
+## comments table
+
+| Column      | Type       | Options           |
+|-------------|------------|-------------------|
+| text        | text       | null: false       |
+| prototype   | references | foreign_key: true |
+| user        | references | foreign_key: true |
+
+### Association
+
+- belongs_to :prototype
 - belongs_to :user
